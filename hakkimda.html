@@ -23,27 +23,53 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">İçeriğe geç</a>
+  <a href="#main-content" class="skip-link">Doğrudan ana içeriğe geç</a>
   <div class="nav-overlay" id="nav-overlay"></div>
+
+  <!-- TOP RUNNING MASTHEAD BAR -->
+  <aside class="top-meta-bar" aria-label="Klinik çalışma durumu ve lokasyon">
+    <div class="container top-meta-inner">
+      <div class="meta-status">
+        <span class="status-dot"></span>
+        <span>Klinik Pratik: Nişantaşı Muayenehane & Şifreli Online</span>
+      </div>
+      <div>
+        <span>ISST Akredite İleri Şema Terapisti · TPD Sicil: 2041</span>
+      </div>
+      <div>
+        <span>Randevu Hattı: <a href="tel:+902122364185" style="color: var(--text-main); font-weight: 500;">+90 (212) 236 41 85</a></span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN EDITORIAL HEADER -->
   <header class="site-header" id="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="Ana Sayfa - Dr. Elif Karasu">
-        <span class="logo-name">Elif Karasu</span>
-        <span class="logo-sep">—</span>
-        <span class="logo-desc">Klinik Psikolog</span>
+      <a href="index.html" class="logo-lockup" aria-label="Ana Sayfa — Dr. Elif Karasu">
+        <span class="logo-monogram">EK</span>
+        <div class="logo-titles">
+          <span class="logo-name">Dr. Elif Karasu</span>
+          <span class="logo-sub">Klinik Psikolog · Doktora (Ph.D.)</span>
+        </div>
       </a>
-      <nav class="main-nav" id="main-nav" aria-label="Ana menü">
-        <ul class="nav-list">
-          <li class="nav-item"><a href="hakkimda.html" class="nav-link">Hakkımda</a></li>
-          <li class="nav-item"><a href="calisma-alanlari.html" class="nav-link">Çalışma Alanları</a></li>
-          <li class="nav-item"><a href="vaka-yaklasimlari.html" class="nav-link">Vaka Yaklaşımları</a></li>
-          <li class="nav-item"><a href="iletisim.html" class="nav-link">İletişim</a></li>
+
+      <nav class="main-nav" id="main-nav" aria-label="Ana menü navigasyonu">
+        <ul class="nav-links">
+          <li><a href="hakkimda.html" class="nav-link">Hakkımda</a></li>
+          <li><a href="calisma-alanlari.html" class="nav-link">Çalışma Alanları</a></li>
+          <li><a href="vaka-yaklasimlari.html" class="nav-link">Vaka Yaklaşımları</a></li>
+          <li><a href="iletisim.html" class="nav-link">İletişim & SSS</a></li>
         </ul>
-        <a href="iletisim.html" class="header-cta">İlk Görüşme</a>
+        <a href="iletisim.html" class="nav-cta">
+          <span>İlk Seans Randevusu</span>
+          <span aria-hidden="true">→</span>
+        </a>
       </nav>
-      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Menüyü aç">
-        <span class="menu-line"></span>
-        <span class="menu-line"></span>
+
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Navigasyon menüsünü aç">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     </div>
   </header>
@@ -187,47 +213,74 @@
     </section>
   </main>
 
+  <!-- MONOGRAPHIC ARCHITECTURAL FOOTER -->
   <footer class="site-footer" role="contentinfo">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <p class="footer-name">Dr. Elif Karasu</p>
-          <p class="footer-desc">Klinik Psikolog · Bireysel Psikoterapi</p>
-          <p class="footer-note">Bilimsel yaklaşım ve etik çerçevede, bireysel terapi süreçlerinde kalıcı dönüşüm odaklı rehberlik.</p>
+      <div class="footer-main-grid">
+        <!-- Biyografi Kolonu -->
+        <div>
+          <p class="footer-bio-title">Dr. Elif Karasu</p>
+          <p class="footer-bio-sub">Klinik Psikolog & Psikoterapist (Ph.D.)</p>
+          <p class="footer-bio-text">
+            Boğaziçi, ODTÜ ve İstanbul Üniversitesi mezuniyetiyle 14 yıldır Nişantaşı muayenehanesinde yetişkin bireysel psikoterapi ve vaka süpervizyonu yürütmektedir. Türk Psikologlar Derneği ve ISST üyesidir.
+          </p>
         </div>
-        <div class="footer-col">
-          <p class="footer-heading">Sayfalar</p>
-          <ul class="footer-links">
-            <li><a href="hakkimda.html">Hakkımda</a></li>
-            <li><a href="calisma-alanlari.html">Çalışma Alanları</a></li>
-            <li><a href="vaka-yaklasimlari.html">Vaka Yaklaşımları</a></li>
-            <li><a href="iletisim.html">İletişim & SSS</a></li>
+
+        <!-- Hızlı Navigasyon -->
+        <div>
+          <p class="footer-col-header">SAYFA İNDEKSİ</p>
+          <ul class="footer-nav-list">
+            <li><a href="hakkimda.html">Akademik Geçmiş & Ekol</a></li>
+            <li><a href="calisma-alanlari.html">Yetişkin Terapi Alanları</a></li>
+            <li><a href="vaka-yaklasimlari.html">Süreç Haritaları (Vakalar)</a></li>
+            <li><a href="iletisim.html">İletişim & Sıkça Sorulanlar</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <p class="footer-heading">İletişim</p>
-          <ul class="footer-contact">
-            <li>Teşvikiye Cad. Belkıs Apt. No: 28/4, Nişantaşı, İstanbul</li>
-            <li><a href="tel:+902122364185">+90 (212) 236 41 85</a></li>
-            <li><a href="mailto:iletisim@elifkarasu.com">iletisim@elifkarasu.com</a></li>
-          </ul>
+
+        <!-- Çalışma Saatleri -->
+        <div>
+          <p class="footer-col-header">SEANS ÇALIŞMA DÜZENİ</p>
+          <div class="footer-contact-specs">
+            <p><strong>Hafta İçi:</strong> 09:30 – 19:30</p>
+            <p><strong>Cumartesi:</strong> 10:00 – 16:30</p>
+            <p><strong>Pazar:</strong> Seans Kabulü Kapalıdır</p>
+            <p style="font-size: 0.8125rem; color: var(--text-light); margin-top: 4px;">Tüm seanslar randevu esasıyla organize edilir.</p>
+          </div>
+        </div>
+
+        <!-- Muayenehane Lokasyonu -->
+        <div>
+          <p class="footer-col-header">MUAYENEHANE & İLETİŞİM</p>
+          <div class="footer-contact-specs">
+            <p>Teşvikiye Cad. Belkıs Apt. No: 28/4<br>34365 Nişantaşı, Şişli / İstanbul</p>
+            <p>Sabit: <a href="tel:+902122364185">+90 (212) 236 41 85</a></p>
+            <p>Asistan: <a href="tel:+905324182095">+90 (532) 418 20 95</a></p>
+            <p>E-posta: <a href="mailto:iletisim@elifkarasu.com">iletisim@elifkarasu.com</a></p>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Dr. Elif Karasu. Tüm hakları saklıdır.</p>
-        <a href="gizlilik-politikasi.html">Gizlilik Politikası & KVKK</a>
+
+      <div class="footer-bottom-row">
+        <p>&copy; 2026 Dr. Elif Karasu. Tüm hakları saklıdır. TPD Etik İlkeleri ve KVKK güvencesindedir.</p>
+        <div>
+          <a href="gizlilik-politikasi.html" style="margin-right: 1.5rem;">Gizlilik Politikası & KVKK</a>
+          <a href="sitemap.xml">Site Haritası</a>
+        </div>
       </div>
     </div>
   </footer>
+
+  <!-- ÇEREZ BİLDİRİMİ -->
   <div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Çerez bildirimi">
-    <div class="cookie-inner">
-      <p class="cookie-text">Bu web sitesi, deneyiminizi iyileştirmek için temel çerezler kullanmaktadır. Detaylı bilgi için <a href="gizlilik-politikasi.html">Gizlilik Politikası</a> sayfamızı inceleyebilirsiniz.</p>
-      <div class="cookie-actions">
-        <button class="cookie-btn cookie-btn--accept" id="cookie-accept">Kabul Et</button>
-        <button class="cookie-btn cookie-btn--reject" id="cookie-reject">Reddet</button>
-      </div>
+    <p class="cookie-text">
+      Bu web sitesi, güvenli oturum ve temel işlevsellik amacıyla asgari düzeyde çerez kullanır. Detaylı bilgiye <a href="gizlilik-politikasi.html">Gizlilik Politikası & KVKK</a> metninden ulaşabilirsiniz.
+    </p>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-btn-accept" id="cookie-accept">Kabul Et</button>
+      <button class="cookie-btn cookie-btn-reject" id="cookie-reject">Reddet</button>
     </div>
   </div>
+
   <script src="js/main.js"></script>
 </body>
 </html>
