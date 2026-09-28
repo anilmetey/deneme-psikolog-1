@@ -1,0 +1,16 @@
+{
+  "name": "Dr. Elif Karasu — Klinik Psikolog",
+  "short_name": "Dr. E. Karasu",
+  "description": "Kıdemli Klinik Psikolog Dr. Elif Karasu — Bireysel Psikoterapi, Nişantaşı İstanbul",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FBF9F6",
+  "theme_color": "#1A2624",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

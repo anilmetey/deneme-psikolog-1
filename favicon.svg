@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="4" fill="#1A2624" />
+  <text x="32" y="42" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" fill="#FBF9F6" text-anchor="middle" letter-spacing="1">EK</text>
+  <circle cx="48" cy="22" r="3" fill="#C47B5A" />
+</svg>
