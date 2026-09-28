@@ -5,6 +5,9 @@
 (function () {
   'use strict';
 
+  // Run Splash controller as early as possible
+  initSplashScreen();
+
   document.addEventListener('DOMContentLoaded', init);
 
   function init() {
@@ -14,6 +17,54 @@
     initFaqAccordion();
     initForms();
     initCookieNotice();
+  }
+
+  /* ----------------------------------------------------
+     0. ELİT SPLASH SCREEN (ÖN YÜKLEME EKRANI)
+     ---------------------------------------------------- */
+  function initSplashScreen() {
+    var splash = document.getElementById('splash-screen');
+    if (!splash) return;
+
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var alreadyShown = false;
+    try {
+      alreadyShown = sessionStorage.getItem('splash_shown_v1') === 'true';
+    } catch (e) {}
+
+    if (alreadyShown || prefersReducedMotion) {
+      splash.style.display = 'none';
+      document.documentElement.classList.add('splash-skip');
+      return;
+    }
+
+    var timer = setTimeout(dismissSplash, 2700);
+
+    splash.addEventListener('animationend', function (e) {
+      if (e.animationName === 'splashSlideUp') {
+        dismissSplash();
+      }
+    });
+
+    // Instant bypass on click or keypress
+    splash.addEventListener('click', dismissSplash);
+    document.addEventListener('keydown', onKey);
+
+    function onKey() {
+      if (splash && splash.style.display !== 'none') {
+        dismissSplash();
+      }
+    }
+
+    function dismissSplash() {
+      clearTimeout(timer);
+      document.removeEventListener('keydown', onKey);
+      try {
+        sessionStorage.setItem('splash_shown_v1', 'true');
+      } catch (e) {}
+      splash.style.display = 'none';
+      document.documentElement.classList.add('splash-skip');
+    }
   }
 
   /* ----------------------------------------------------
@@ -218,7 +269,6 @@
         }
       });
 
-      // Clear errors on field focus/input
       form.querySelectorAll('input, select, textarea').forEach(function (field) {
         field.addEventListener('input', function () {
           clearFieldError(field);
@@ -277,18 +327,19 @@
       el.style.padding = '0.875rem 1rem';
       el.style.fontSize = '0.875rem';
       el.style.lineHeight = '1.5';
-      el.style.borderRadius = '2px';
+      el.style.borderRadius = '3px';
+      el.style.backdropFilter = 'blur(12px)';
 
       if (type === 'success') {
-        el.style.backgroundColor = '#E8F5E9';
+        el.style.backgroundColor = 'rgba(232, 245, 233, 0.85)';
         el.style.color = '#1B5E20';
         el.style.border = '1px solid #A5D6A7';
       } else if (type === 'error') {
-        el.style.backgroundColor = '#FFEBEE';
+        el.style.backgroundColor = 'rgba(255, 235, 238, 0.85)';
         el.style.color = '#B71C1C';
         el.style.border = '1px solid #FFCDD2';
       } else {
-        el.style.backgroundColor = '#ECEFF1';
+        el.style.backgroundColor = 'rgba(236, 239, 241, 0.85)';
         el.style.color = '#37474F';
         el.style.border = '1px solid #CFD8DC';
       }

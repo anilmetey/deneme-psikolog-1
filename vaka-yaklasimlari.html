@@ -21,8 +21,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    try {
+      if (sessionStorage.getItem("splash_shown_v1") === "true" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("splash-skip");
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
+  <!-- EDITORIAL SPLASH SCREEN (ÖN YÜKLEME EKRANI) -->
+  <div id="splash-screen" class="splash-screen" aria-hidden="true">
+    <div class="splash-inner">
+      <span class="splash-kicker">KLİNİK PSİKOLOJİ</span>
+      <h2 class="splash-motto">zihnin sakin alanı&hellip;</h2>
+      <span class="splash-author">Dr. Elif Karasu</span>
+    </div>
+  </div>
+
+  <!-- AMBIENT GLOW (DERİNLİK IŞIKLARI) -->
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="ambient-glow__light-1"></div>
+    <div class="ambient-glow__light-2"></div>
+  </div>
   <a href="#main-content" class="skip-link">Doğrudan ana içeriğe geç</a>
   <div class="nav-overlay" id="nav-overlay"></div>
 
