@@ -19,6 +19,9 @@
     initCookieNotice();
     initAssessmentTool();
     initSlotChips();
+    initSessionSimulator();
+    initAmbientSound();
+    initPageTransitions();
   }
 
   /* ----------------------------------------------------
@@ -498,6 +501,250 @@
             if (hiddenInput) hiddenInput.value = selectedVals.join(', ');
           }
         });
+      });
+    });
+  }
+
+  /* ----------------------------------------------------
+     9. AMBIENT CALM SOUND GENERATOR (WEB AUDIO API)
+     ---------------------------------------------------- */
+  function initAmbientSound() {
+    var btn = document.getElementById('ambient-sound-toggle');
+    if (!btn) return;
+
+    var audioCtx = null;
+    var noiseNode = null;
+    var gainNode = null;
+    var isPlaying = false;
+
+    btn.addEventListener('click', function () {
+      if (!isPlaying) {
+        startSound();
+      } else {
+        stopSound();
+      }
+    });
+
+    function startSound() {
+      try {
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        if (!audioCtx) {
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        // Brown noise generation for soothing organic acoustic backdrop
+        var bufferSize = 2 * audioCtx.sampleRate;
+        var noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        var output = noiseBuffer.getChannelData(0);
+        var lastOut = 0.0;
+        for (var i = 0; i < bufferSize; i++) {
+          var white = Math.random() * 2 - 1;
+          output[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = output[i];
+          output[i] *= 3.5;
+        }
+
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = noiseBuffer;
+        noiseNode.loop = true;
+
+        var filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(420, audioCtx.currentTime);
+
+        gainNode = audioCtx.createGain();
+        gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 1.2);
+
+        noiseNode.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        noiseNode.start(0);
+        isPlaying = true;
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+        var labelEl = btn.querySelector('.sound-label');
+        if (labelEl) labelEl.textContent = 'Sükunet: Açık';
+      } catch (err) {
+        console.warn('Ambient audio could not start:', err);
+      }
+    }
+
+    function stopSound() {
+      if (!gainNode || !audioCtx) return;
+      gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+      setTimeout(function () {
+        if (noiseNode) {
+          try { noiseNode.stop(); noiseNode.disconnect(); } catch (e) {}
+          noiseNode = null;
+        }
+        isPlaying = false;
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
+        var labelEl = btn.querySelector('.sound-label');
+        if (labelEl) labelEl.textContent = 'Sükunet Modu';
+      }, 850);
+    }
+  }
+
+  /* ----------------------------------------------------
+     10. 50-MINUTE CLINICAL SESSION SIMULATOR
+     ---------------------------------------------------- */
+  function initSessionSimulator() {
+    var section = document.getElementById('seans-deneyimi');
+    if (!section) return;
+
+    var stages = [
+      {
+        minute: "00:00 – 10:00 · AŞAMA 01",
+        title: "Kapsama & Güvenli Alanın Kurulması",
+        desc: "Seans kapısı kapanır, dış dünyanın hızı ve gürültüsü kapının ardında bırakılır. Yargılanma korkusu olmadan, terapist ile danışan arasında 'kapsayıcı ve etik sınırları net' bir güven bağı tesis edilir.",
+        tags: ["Akustik Yalıtım", "Telefonlar Sessizde", "Çerçeve Sözleşmesi"],
+        dialogueKicker: "İLK ANIN KLİNİK PSİKOLOJİSİ",
+        dialogueQuote: "«Bugün buraya gelirken içinizdeki hangi parça en çok duyulmak ve yükünü indirmek istedi?»",
+        clinicianNote: "Dr. Elif Karasu Gözlemi: Danışanın ilk dakikalarda hissettiği kaygı son derece doğaldır. Bu aşamada asla aceleci sorular sorulmaz; zihnin kendi ritminde açılmasına saygı gösterilir."
+      },
+      {
+        minute: "10:00 – 25:00 · AŞAMA 02",
+        title: "Semptomun Ardındaki Kökleri Haritalama",
+        desc: "Danışanın getirdiği güncel kriz (ilişki tartışması, iş stresi veya ani panik atağı) masaya yatırılır. Şema Terapi perspektifiyle bu tablonun kökenindeki çocukluk ihtiyaçları ve otomatik başa çıkma biçimleri belirlenir.",
+        tags: ["Bilişsel Haritalama", "Kök İnanç Tespiti", "Duygusal Farkındalık"],
+        dialogueKicker: "ŞEMA VE MOD ANALİZİ",
+        dialogueQuote: "«Bu terk edilme korkusu size geçmişten, çocukluğunuzdaki hangi yalnızlık anından tanıdık geliyor?»",
+        clinicianNote: "Dr. Elif Karasu Gözlemi: Semptom bir düşman değil, geçmişte bizi hayatta tutmaya çalışmış koruyucu bir kalkan gibidir. Onu yargılamadan dinlediğimizde direnç kendiliğinden çözülür."
+      },
+      {
+        minute: "25:00 – 40:00 · AŞAMA 03",
+        title: "Yaşantısal Temas & Yeniden Ebeveynlik",
+        desc: "Yalnızca entelektüel düzeyde konuşmak kalıcı dönüşüm sağlamaz. İmajinasyon veya sandalye tekniğiyle, geçmişte incinmiş çocuk parçaya bugünkü sağlıklı yetişkin şefkatiyle temas edilir ve duygusal bellek yeniden onarılır.",
+        tags: ["İmajinasyon Tekniği", "Duygusal Boşalım", "Sandalye Çalışması"],
+        dialogueKicker: "YAŞANTISAL MÜDAHALE ANI",
+        dialogueQuote: "«O küçük çocuğun yanına gidin ve ona söyleyin: 'Artık yalnız değilsin, seni koruyacak ve sınırlarını savunacak bir yetişkin var.'»",
+        clinicianNote: "Dr. Elif Karasu Gözlemi: Bedenin ve duygunun derin katmanlarına inilen en dönüştürücü 15 dakikadır. Terapist burada güvenli bir sığınak rolü üstlenir."
+      },
+      {
+        minute: "40:00 – 50:00 · AŞAMA 04",
+        title: "Bilişsel Entegrasyon & Güvenli Topraklanma",
+        desc: "Açılan duygusal alan toparlanır. Danışanın seans odasından savunmasız değil; güçlenmiş, kendi sınırlarının farkında ve regüle olmuş bir zihinle günlük yaşama dönmesi sağlanır.",
+        tags: ["Regülasyon & Nefes", "Gündelik Eylem Planı", "Kapanış Çerçevesi"],
+        dialogueKicker: "SEANS KAPANIŞI VE TOPRAKLANMA",
+        dialogueQuote: "«Bugün odada keşfettiğimiz bu sağlıklı yetişkin sesini, bu hafta karşılaşacağınız o zorlu görüşmede nasıl yanınızda taşıyabilirsiniz?»",
+        clinicianNote: "Dr. Elif Karasu Gözlemi: Her seans, danışanın kendi terapisti olma yolculuğundaki bir tuğladır. 50. dakikada güvenle ayağa kalkılır ve haftaya randevulaşılır."
+      }
+    ];
+
+    var currentIdx = 0;
+    var navBtns = section.querySelectorAll('.sim-nav-btn');
+    var badgeEl = section.querySelector('.sim-minute-badge');
+    var titleEl = section.querySelector('.sim-stage-title');
+    var descEl = section.querySelector('.sim-stage-desc');
+    var tagsContainer = section.querySelector('.sim-role-tags');
+    var kickerEl = section.querySelector('.sim-dialogue-kicker');
+    var quoteEl = section.querySelector('.sim-dialogue-quote');
+    var noteEl = section.querySelector('.sim-clinician-note');
+    var prevBtn = section.querySelector('#sim-prev-btn');
+    var nextBtn = section.querySelector('#sim-next-btn');
+
+    function renderStage(idx) {
+      currentIdx = idx;
+      var data = stages[idx];
+      if (!data) return;
+
+      navBtns.forEach(function (btn, i) {
+        btn.classList.toggle('active', i === idx);
+        btn.setAttribute('aria-selected', String(i === idx));
+      });
+
+      if (badgeEl) badgeEl.textContent = data.minute;
+      if (titleEl) titleEl.textContent = data.title;
+      if (descEl) descEl.textContent = data.desc;
+      if (kickerEl) kickerEl.textContent = data.dialogueKicker;
+      if (quoteEl) quoteEl.textContent = data.dialogueQuote;
+      if (noteEl) noteEl.textContent = data.clinicianNote;
+
+      if (tagsContainer) {
+        tagsContainer.innerHTML = '';
+        data.tags.forEach(function (tag) {
+          var span = document.createElement('span');
+          span.className = 'sim-role-tag';
+          span.textContent = tag;
+          tagsContainer.appendChild(span);
+        });
+      }
+
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) {
+        if (idx === stages.length - 1) {
+          nextBtn.textContent = 'İlk Seansı Planlayın →';
+        } else {
+          nextBtn.textContent = 'Sonraki Aşama (' + stages[idx + 1].minute.split(' · ')[0] + ') →';
+        }
+      }
+    }
+
+    navBtns.forEach(function (btn, idx) {
+      btn.addEventListener('click', function () {
+        renderStage(idx);
+      });
+    });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        if (currentIdx > 0) renderStage(currentIdx - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        if (currentIdx < stages.length - 1) {
+          renderStage(currentIdx + 1);
+        } else {
+          var booking = document.getElementById('ilk-seans');
+          if (booking) booking.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    renderStage(0);
+  }
+
+  /* ----------------------------------------------------
+     11. SMOOTH PAGE TRANSITION VEIL
+     ---------------------------------------------------- */
+  function initPageTransitions() {
+    var veil = document.createElement('div');
+    veil.className = 'page-veil';
+    veil.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(veil);
+
+    document.querySelectorAll('a[href]').forEach(function (link) {
+      var href = link.getAttribute('href');
+      if (
+        !href ||
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        href.startsWith('javascript:') ||
+        link.target === '_blank' ||
+        link.hasAttribute('download')
+      ) {
+        return;
+      }
+
+      link.addEventListener('click', function (e) {
+        if (link.hostname === window.location.hostname || !link.hostname) {
+          e.preventDefault();
+          veil.classList.add('is-active');
+          setTimeout(function () {
+            window.location.href = href;
+          }, 240);
+        }
       });
     });
   }

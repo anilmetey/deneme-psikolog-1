@@ -103,7 +103,12 @@
         <span>Klinik Pratik: Nişantaşı Muayenehane & Şifreli Online</span>
       </div>
       <div>
-        <span>ISST Akredite İleri Şema Terapisti · TPD Sicil: 2041</span>
+        <button id="ambient-sound-toggle" class="ambient-sound-btn" aria-label="Klinik sessizlik ve sükunet sesini aç/kapat" aria-pressed="false">
+          <div class="sound-bars-anim" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="sound-label">Sükunet Modu</span>
+        </button>
       </div>
       <div>
         <span>Randevu Hattı: <a href="tel:+902122364185" style="color: var(--text-main); font-weight: 500;">+90 (212) 236 41 85</a></span>
@@ -144,62 +149,58 @@
   </header>
 
   <main id="main-content" role="main">
-    <!-- HERO: ASYMMETRIC BRUTALIST & EDITORIAL SPREAD -->
-    <section class="hero-editorial">
+    <!-- HERO: LUXURY EDITORIAL ART DIRECTION & ASYMMETRIC SPREAD -->
+    <section class="hero-editorial--luxury">
       <div class="container">
-        <div class="hero-grid">
-          <!-- Sol Kolon: Editoryal Başlık ve Giriş -->
+        <div class="hero-spread-grid">
+          <!-- Sol Kolon: Editoryal Tipografi ve Bildiri -->
           <div class="hero-content">
-            <div class="hero-kicker">KLİNİK PSİKOLOJİ · BİREYSEL TERAPİ · VOL. XIV</div>
-            <h1 class="hero-headline">
+            <div class="hero-editorial-badge">
+              <span>KLİNİK PSİKOLOJİ</span>
+              <span>·</span>
+              <span>14 YILLIK PRATİK</span>
+              <span>·</span>
+              <span>NİŞANTAŞI</span>
+            </div>
+            <h1 class="hero-headline--massive">
               Zihnin karmaşıklığına, <em>bilimin ve deneyimin</em> ışığında sakin bir alan açmak.
             </h1>
             <p class="hero-lead">
-              14 yıllık üniversite hastanesi ve klinik pratiğiyle; kaygı döngüleri, ilişkisel tıkanıklıklar ve erken çocukluk şemalarında kanıta dayalı, yargısız ve kalıcı dönüşüm odaklı bireysel psikoterapi rehberliği.
+              Boğaziçi, ODTÜ ve İstanbul Üniversitesi formasyonuyla; kaygı döngüleri, ilişkisel tıkanıklıklar ve erken çocukluk şemalarında kanıta dayalı, yargısız ve kalıcı dönüşüm odaklı yetişkin bireysel psikoterapi rehberliği.
             </p>
             <div class="hero-action-group">
-              <a href="#ilk-seans" class="btn btn-primary">İlk Seans İçin İletişime Geçin</a>
-              <a href="calisma-alanlari.html" class="btn btn-secondary">Çalışma Alanları İndeksi</a>
+              <a href="#ilk-seans" class="btn btn-primary">İlk Seans İçin İletişime Geçin →</a>
+              <a href="#seans-deneyimi" class="btn btn-secondary">50 Dk Seans Simülatörü</a>
+            </div>
+
+            <!-- Signature Quote Box with Seal -->
+            <div class="hero-quote-signature">
+              <div class="signature-seal" aria-hidden="true">EK</div>
+              <p class="signature-text">
+                "Terapi odasında semptom bastırılacak bir arıza değil; karşılanmamış temel duygusal ihtiyaçların bugüne ulaşan anlamlı feryadıdır."
+              </p>
             </div>
           </div>
 
-          <!-- Sağ Kolon: Architectural Dossier Panel -->
-          <aside class="hero-dossier" aria-label="Klinik çerçeve özeti">
-            <div class="portrait-editorial" style="margin-bottom: 1.5rem;">
+          <!-- Sağ Kolon: Exhibition-Grade Portrait Presentation -->
+          <div class="portrait-presentation-col">
+            <div class="portrait-exhibition-frame">
+              <div class="floating-status-pill" aria-label="Klinik kabul durumu">
+                <span class="pulse-indicator"></span>
+                <span>Nişantaşı & Şifreli Online</span>
+              </div>
               <img src="assets/images/dr-elif-karasu.jpg" alt="Dr. Elif Karasu — Klinik Psikolog Portresi" width="480" height="580" loading="eager">
-              <div class="portrait-caption">
-                <span class="portrait-name">Dr. Elif Karasu</span>
-                <span class="portrait-role">Ph.D. · ISST Süpervizör</span>
+              <div class="portrait-exhibition-meta">
+                <div>
+                  <h2 class="portrait-exhibition-title">Dr. Elif Karasu</h2>
+                  <p class="portrait-exhibition-sub">Klinik Psikolog · Doktora (Ph.D.)</p>
+                </div>
+                <div class="portrait-stamp-badge">
+                  ISST · TPD 2041
+                </div>
               </div>
             </div>
-
-            <div class="dossier-spec-list">
-              <div class="dossier-spec-row">
-                <span class="dossier-spec-label">KLİNİSYEN</span>
-                <span class="dossier-spec-value">Dr. Elif Karasu (Ph.D.)</span>
-              </div>
-              <div class="dossier-spec-row">
-                <span class="dossier-spec-label">FORMASYON</span>
-                <span class="dossier-spec-value">Boğaziçi (B.A.) · ODTÜ (M.S.) · İÜ (Ph.D.)</span>
-              </div>
-              <div class="dossier-spec-row">
-                <span class="dossier-spec-label">AKREDİTASYON</span>
-                <span class="dossier-spec-value">ISST İleri Şema Terapisti & Süpervizör</span>
-              </div>
-              <div class="dossier-spec-row">
-                <span class="dossier-spec-label">LOKASYON</span>
-                <span class="dossier-spec-value">Nişantaşı Muayenehane / Şifreli Online</span>
-              </div>
-              <div class="dossier-spec-row">
-                <span class="dossier-spec-label">ÇERÇEVE</span>
-                <span class="dossier-spec-value">50 Dk · Mutlak Mesleki Mahremiyet</span>
-              </div>
-            </div>
-
-            <div class="dossier-quote-box">
-              "Terapi odasında semptom bastırılacak bir arıza değil; karşılanmamış temel duygusal ihtiyaçların bugüne ulaşan anlamlı feryadıdır."
-            </div>
-          </aside>
+          </div>
         </div>
       </div>
     </section>
@@ -288,7 +289,86 @@
       </div>
     </section>
 
-    <!-- 03. SECTION: ÇALIŞMA ALANLARI EDİTORYAL İNDEKSİ -->
+    <!-- 03. SECTION: 50 DAKİKALIK SEANS DENEYİMİ SİMÜLATÖRÜ -->
+    <section class="session-simulator-section" id="seans-deneyimi">
+      <div class="container">
+        <div class="sim-container">
+          <div class="sim-header">
+            <div class="section-tag" style="margin-bottom: 0.75rem;">İNTERAKTİF SİMÜLASYON // SEANSIN İÇ ANATOMİSİ</div>
+            <h2 class="section-title-serif" style="font-size: clamp(2.125rem, 3.8vw, 3rem); margin-bottom: 1rem;">Seans Odasında 50 Dakika Nasıl Geçer?</h2>
+            <p class="section-desc-lead">
+              Terapiye ilk kez adım atacak danışanların en sık hissettiği belirsizliği ortadan kaldırıyoruz. Aşağıdaki aşamalara tıklayarak yargılanmadan, adım adım derinleşen seans dinamiğini deneyimleyin.
+            </p>
+          </div>
+
+          <!-- Time Tabs -->
+          <div class="sim-nav" role="tablist" aria-label="Seans aşamaları navigasyonu">
+            <button type="button" class="sim-nav-btn active" role="tab" aria-selected="true">
+              <span class="sim-nav-time">00:00 – 10:00</span>
+              <span class="sim-nav-label">01. Kapsama & Güven</span>
+            </button>
+            <button type="button" class="sim-nav-btn" role="tab" aria-selected="false">
+              <span class="sim-nav-time">10:00 – 25:00</span>
+              <span class="sim-nav-label">02. Kökleri Haritalama</span>
+            </button>
+            <button type="button" class="sim-nav-btn" role="tab" aria-selected="false">
+              <span class="sim-nav-time">25:00 – 40:00</span>
+              <span class="sim-nav-label">03. Yaşantısal Temas</span>
+            </button>
+            <button type="button" class="sim-nav-btn" role="tab" aria-selected="false">
+              <span class="sim-nav-time">40:00 – 50:00</span>
+              <span class="sim-nav-label">04. Topraklanma</span>
+            </button>
+          </div>
+
+          <!-- Active Viewport Card -->
+          <div class="sim-viewport-card">
+            <div class="sim-viewport-grid">
+              <!-- Sol Sütun: Süreç ve Rol Tanımları -->
+              <div class="sim-viewport-left">
+                <div>
+                  <div class="sim-minute-badge">00:00 – 10:00 · AŞAMA 01</div>
+                  <h3 class="sim-stage-title">Kapsama & Güvenli Alanın Kurulması</h3>
+                  <p class="sim-stage-desc">
+                    Seans kapısı kapanır, dış dünyanın hızı ve gürültüsü kapının ardında bırakılır. Yargılanma korkusu olmadan, terapist ile danışan arasında 'kapsayıcı ve etik sınırları net' bir güven bağı tesis edilir.
+                  </p>
+                </div>
+                <div class="sim-role-tags">
+                  <span class="sim-role-tag">Akustik Yalıtım</span>
+                  <span class="sim-role-tag">Telefonlar Sessizde</span>
+                  <span class="sim-role-tag">Çerçeve Sözleşmesi</span>
+                </div>
+              </div>
+
+              <!-- Sağ Sütun: Odadaki Diyalog ve Not -->
+              <div class="sim-viewport-right">
+                <div class="sim-dialogue-box">
+                  <div class="sim-dialogue-kicker">İLK ANIN KLİNİK PSİKOLOJİSİ</div>
+                  <blockquote class="sim-dialogue-quote">
+                    «Bugün buraya gelirken içinizdeki hangi parça en çok duyulmak ve yükünü indirmek istedi?»
+                  </blockquote>
+                </div>
+                <p class="sim-clinician-note">
+                  Dr. Elif Karasu Gözlemi: Danışanın ilk dakikalarda hissettiği kaygı son derece doğaldır. Bu aşamada asla aceleci sorular sorulmaz; zihnin kendi ritminde açılmasına saygı gösterilir.
+                </p>
+              </div>
+            </div>
+
+            <!-- Kontrol Butonları -->
+            <div class="sim-controls-row">
+              <button type="button" id="sim-prev-btn" class="btn btn-secondary" style="min-height: 44px; padding: 0.5rem 1.25rem; font-size: 0.8125rem;" disabled>
+                ← Önceki Aşama
+              </button>
+              <button type="button" id="sim-next-btn" class="btn btn-primary" style="min-height: 44px; padding: 0.5rem 1.5rem; font-size: 0.8125rem;">
+                Sonraki Aşama (10:00) →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04. SECTION: ÇALIŞMA ALANLARI EDİTORYAL İNDEKSİ -->
     <section class="editorial-section" style="background-color: var(--bg-subtle);">
       <div class="container">
         <div class="section-head-split">
