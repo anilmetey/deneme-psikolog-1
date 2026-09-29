@@ -25,7 +25,7 @@
   }
 
   /* ----------------------------------------------------
-     0. ELİT SPLASH SCREEN (ÖN YÜKLEME EKRANI)
+     0. ELİT SPLASH SCREEN (ÖN YÜKLEME EKRANI) - CINEMATIC
      ---------------------------------------------------- */
   function initSplashScreen() {
     var splash = document.getElementById('splash-screen');
@@ -43,32 +43,59 @@
       return;
     }
 
-    var timer = setTimeout(dismissSplash, 2700);
+    var progressBar = splash.querySelector('.splash-progress-bar');
+    var counterEl = splash.querySelector('#splash-counter');
+    var skipBtn = splash.querySelector('#splash-skip-btn');
 
-    splash.addEventListener('animationend', function (e) {
-      if (e.animationName === 'splashSlideUp') {
-        dismissSplash();
+    var startTime = performance.now();
+    var duration = 1600;
+    var isDone = false;
+
+    function frame(now) {
+      if (isDone) return;
+      var elapsed = now - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var pct = Math.floor(progress * 100);
+
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (counterEl) counterEl.textContent = (pct < 10 ? '0' + pct : pct) + '%';
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        setTimeout(dismissSplash, 220);
       }
-    });
+    }
+    requestAnimationFrame(frame);
 
-    // Instant bypass on click or keypress
+    if (skipBtn) {
+      skipBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dismissSplash();
+      });
+    }
+
     splash.addEventListener('click', dismissSplash);
     document.addEventListener('keydown', onKey);
 
-    function onKey() {
-      if (splash && splash.style.display !== 'none') {
+    function onKey(e) {
+      if (e.key === 'Escape' || e.keyCode === 27) {
         dismissSplash();
       }
     }
 
     function dismissSplash() {
-      clearTimeout(timer);
+      if (isDone) return;
+      isDone = true;
       document.removeEventListener('keydown', onKey);
+      splash.classList.add('is-dismissing');
       try {
         sessionStorage.setItem('splash_shown_v1', 'true');
       } catch (e) {}
-      splash.style.display = 'none';
-      document.documentElement.classList.add('splash-skip');
+      setTimeout(function () {
+        splash.style.display = 'none';
+        document.documentElement.classList.add('splash-skip');
+      }, 700);
     }
   }
 
@@ -506,90 +533,196 @@
   }
 
   /* ----------------------------------------------------
-     9. AMBIENT CALM SOUND GENERATOR (WEB AUDIO API)
+     9. SÜKUNET & ODAK KONSOLU (DUAL CHANNEL WEB AUDIO HD)
      ---------------------------------------------------- */
   function initAmbientSound() {
-    var btn = document.getElementById('ambient-sound-toggle');
-    if (!btn) return;
+    var consoleContainers = document.querySelectorAll('.sukenet-console');
+    if (!consoleContainers.length) return;
 
     var audioCtx = null;
-    var noiseNode = null;
-    var gainNode = null;
+    var sourceNode = null;
+    var masterGain = null;
+    var filterNode = null;
+    var currentChannel = 'room';
     var isPlaying = false;
+    var currentVolume = 0.5;
 
-    btn.addEventListener('click', function () {
-      if (!isPlaying) {
-        startSound();
-      } else {
-        stopSound();
+    consoleContainers.forEach(function (container) {
+      var toggleBtn = container.querySelector('.sukenet-toggle-pill');
+      var channelBtns = container.querySelectorAll('.channel-btn');
+      var volumeSlider = container.querySelector('.volume-slider');
+      var volumeDisplay = container.querySelector('#volume-val-display');
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (!isPlaying) {
+            startAudio();
+            container.classList.add('open');
+          } else {
+            container.classList.toggle('open');
+          }
+        });
+      }
+
+      channelBtns.forEach(function (cBtn) {
+        cBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var channel = cBtn.dataset.channel;
+          if (channel === currentChannel) return;
+
+          channelBtns.forEach(function (b) { 
+            b.classList.remove('active'); 
+            var chk = b.querySelector('.channel-check');
+            if (chk) chk.textContent = ''; 
+          });
+          cBtn.classList.add('active');
+          var activeChk = cBtn.querySelector('.channel-check');
+          if (activeChk) activeChk.textContent = '✓';
+          currentChannel = channel;
+
+          if (isPlaying) {
+            rebuildAudioPipeline();
+          }
+        });
+      });
+
+      if (volumeSlider) {
+        volumeSlider.addEventListener('input', function (e) {
+          var val = parseInt(e.target.value, 10);
+          currentVolume = val / 100;
+          if (volumeDisplay) volumeDisplay.textContent = val + '%';
+          if (masterGain && audioCtx) {
+            masterGain.gain.setValueAtTime(currentVolume * 0.12, audioCtx.currentTime);
+          }
+        });
       }
     });
 
-    function startSound() {
-      try {
-        var AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        if (!audioCtx) {
-          audioCtx = new AudioContext();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.sukenet-console')) {
+        consoleContainers.forEach(function (c) { c.classList.remove('open'); });
+      }
+    });
 
-        // Brown noise generation for soothing organic acoustic backdrop
-        var bufferSize = 2 * audioCtx.sampleRate;
-        var noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        var output = noiseBuffer.getChannelData(0);
+    function getAudioContext() {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return null;
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function generateBuffer(type) {
+      var ctx = getAudioContext();
+      if (!ctx) return null;
+      var bufferSize = 2 * ctx.sampleRate;
+      var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      var data = buffer.getChannelData(0);
+
+      if (type === 'room') {
         var lastOut = 0.0;
         for (var i = 0; i < bufferSize; i++) {
           var white = Math.random() * 2 - 1;
-          output[i] = (lastOut + (0.02 * white)) / 1.02;
-          lastOut = output[i];
-          output[i] *= 3.5;
+          data[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = data[i];
+          data[i] *= 3.2;
         }
+      } else {
+        var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (var j = 0; j < bufferSize; j++) {
+          var w = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + w * 0.0555179;
+          b1 = 0.99332 * b1 + w * 0.0750759;
+          b2 = 0.96900 * b2 + w * 0.1538520;
+          b3 = 0.86650 * b3 + w * 0.3104856;
+          b4 = 0.55000 * b4 + w * 0.5329522;
+          b5 = -0.7616 * b5 - w * 0.0168980;
+          data[j] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362;
+          data[j] *= 0.11;
+          b6 = w * 0.115926;
+        }
+      }
+      return buffer;
+    }
 
-        noiseNode = audioCtx.createBufferSource();
-        noiseNode.buffer = noiseBuffer;
-        noiseNode.loop = true;
+    function buildAudioPipeline() {
+      var ctx = getAudioContext();
+      if (!ctx) return;
 
-        var filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(420, audioCtx.currentTime);
+      var buf = generateBuffer(currentChannel);
+      sourceNode = ctx.createBufferSource();
+      sourceNode.buffer = buf;
+      sourceNode.loop = true;
 
-        gainNode = audioCtx.createGain();
-        gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 1.2);
+      filterNode = ctx.createBiquadFilter();
+      if (currentChannel === 'room') {
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(360, ctx.currentTime);
+      } else {
+        filterNode.type = 'bandpass';
+        filterNode.frequency.setValueAtTime(800, ctx.currentTime);
+        filterNode.Q.setValueAtTime(0.7, ctx.currentTime);
+      }
 
-        noiseNode.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+      masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
+      masterGain.gain.exponentialRampToValueAtTime(currentVolume * 0.12, ctx.currentTime + 1.2);
 
-        noiseNode.start(0);
+      sourceNode.connect(filterNode);
+      filterNode.connect(masterGain);
+      masterGain.connect(ctx.destination);
+
+      sourceNode.start(0);
+    }
+
+    function rebuildAudioPipeline() {
+      if (sourceNode) {
+        try { sourceNode.stop(); sourceNode.disconnect(); } catch (e) {}
+      }
+      buildAudioPipeline();
+    }
+
+    function startAudio() {
+      try {
+        buildAudioPipeline();
         isPlaying = true;
-        btn.classList.add('is-active');
-        btn.setAttribute('aria-pressed', 'true');
-        var labelEl = btn.querySelector('.sound-label');
-        if (labelEl) labelEl.textContent = 'Sükunet: Açık';
-      } catch (err) {
-        console.warn('Ambient audio could not start:', err);
+        updateUI();
+      } catch (e) {
+        console.warn('Audio could not start:', e);
       }
     }
 
-    function stopSound() {
-      if (!gainNode || !audioCtx) return;
-      gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+    function stopAudio() {
+      if (!masterGain || !audioCtx) return;
+      masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+      masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
       setTimeout(function () {
-        if (noiseNode) {
-          try { noiseNode.stop(); noiseNode.disconnect(); } catch (e) {}
-          noiseNode = null;
+        if (sourceNode) {
+          try { sourceNode.stop(); sourceNode.disconnect(); } catch (e) {}
+          sourceNode = null;
         }
         isPlaying = false;
-        btn.classList.remove('is-active');
-        btn.setAttribute('aria-pressed', 'false');
-        var labelEl = btn.querySelector('.sound-label');
-        if (labelEl) labelEl.textContent = 'Sükunet Modu';
-      }, 850);
+        updateUI();
+      }, 650);
+    }
+
+    function updateUI() {
+      consoleContainers.forEach(function (c) {
+        var pill = c.querySelector('.sukenet-toggle-pill');
+        var label = c.querySelector('.sound-status-label');
+        if (pill) {
+          pill.classList.toggle('is-active', isPlaying);
+          pill.setAttribute('aria-expanded', String(isPlaying));
+        }
+        if (label) {
+          label.textContent = isPlaying ? (currentChannel === 'room' ? 'Sükunet: Oda' : 'Sükunet: Yağmur') : 'Sükunet Modu';
+        }
+      });
     }
   }
 

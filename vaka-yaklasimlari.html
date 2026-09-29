@@ -30,12 +30,25 @@
   </script>
 </head>
 <body>
-  <!-- EDITORIAL SPLASH SCREEN (ÖN YÜKLEME EKRANI) -->
+  <!-- EDITORIAL SPLASH SCREEN (ÖN YÜKLEME EKRANI) - CINEMATIC -->
   <div id="splash-screen" class="splash-screen" aria-hidden="true">
+    <button type="button" class="splash-skip-btn" id="splash-skip-btn" aria-label="Giriş ekranını geç">
+      <span>Atla</span>
+      <kbd>ESC</kbd>
+    </button>
     <div class="splash-inner">
-      <span class="splash-kicker">KLİNİK PSİKOLOJİ</span>
+      <div class="splash-emblem">
+        <div class="splash-emblem-ring"></div>
+        <span class="splash-emblem-text">EK</span>
+      </div>
+      <span class="splash-kicker">KLİNİK PSİKOLOJİ · İSTANBUL</span>
       <h2 class="splash-motto">zihnin sakin alanı&hellip;</h2>
-      <span class="splash-author">Dr. Elif Karasu</span>
+      <span class="splash-author">Dr. Elif Karasu · Ph.D.</span>
+      
+      <div class="splash-progress-track" aria-hidden="true">
+        <div class="splash-progress-bar"></div>
+      </div>
+      <div class="splash-counter-label" id="splash-counter">00%</div>
     </div>
   </div>
 
@@ -55,12 +68,7 @@
         <span>Klinik Pratik: Nişantaşı Muayenehane & Şifreli Online</span>
       </div>
       <div>
-        <button id="ambient-sound-toggle" class="ambient-sound-btn" aria-label="Klinik sessizlik ve sükunet sesini aç/kapat" aria-pressed="false">
-          <div class="sound-bars-anim" aria-hidden="true">
-            <span></span><span></span><span></span>
-          </div>
-          <span class="sound-label">Sükunet Modu</span>
-        </button>
+        <span>ISST Akredite İleri Şema Terapisti · TPD Sicil: 2041</span>
       </div>
       <div>
         <span>Randevu Hattı: <a href="tel:+902122364185" style="color: var(--text-main); font-weight: 500;">+90 (212) 236 41 85</a></span>
@@ -83,9 +91,57 @@
         <ul class="nav-links">
           <li><a href="hakkimda.html" class="nav-link">Hakkımda</a></li>
           <li><a href="calisma-alanlari.html" class="nav-link">Çalışma Alanları</a></li>
-          <li><a href="vaka-yaklasimlari.html" class="nav-link">Vaka Yaklaşımları</a></li>
+          <li><a href="vaka-yaklasimlari.html" class="nav-link active">Vaka Yaklaşımları</a></li>
           <li><a href="iletisim.html" class="nav-link">İletişim & SSS</a></li>
         </ul>
+
+        <!-- SÜKUNET & ODAK KONSOLU (PREMIUM AUDIO CONSOLE) -->
+        <div class="sukenet-console" id="sukenet-console">
+          <button type="button" class="sukenet-toggle-pill" aria-label="Klinik Sükunet ve Odak Sesini Aç/Kapat" aria-expanded="false">
+            <div class="sound-wave-bars" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="sound-status-label">Sükunet Modu</span>
+            <span class="sound-chevron" aria-hidden="true">▾</span>
+          </button>
+
+          <!-- Floating Soundscape Popover -->
+          <div class="sukenet-popover" aria-label="Sükunet ses ayarları">
+            <div class="popover-head">
+              <span class="popover-title">KLİNİK SES ATMOSFERİ</span>
+              <span class="popover-badge">WEB AUDIO HD</span>
+            </div>
+            <p class="popover-desc">Akustik yalıtımlı Nişantaşı seans odasının zihni sakinleştiren frekansları.</p>
+            
+            <div class="sound-channels">
+              <button type="button" class="channel-btn active" data-channel="room">
+                <span class="channel-icon">🏛️</span>
+                <div class="channel-text">
+                  <strong>Klinik Oda Sükuneti</strong>
+                  <span>Akustik rezonans & düşük oda frekansı</span>
+                </div>
+                <span class="channel-check">✓</span>
+              </button>
+              <button type="button" class="channel-btn" data-channel="rain">
+                <span class="channel-icon">🌧️</span>
+                <div class="channel-text">
+                  <strong>Dingin Yağmur & Zihin</strong>
+                  <span>Hafif ve ritmik dinlendirici yağmur</span>
+                </div>
+                <span class="channel-check"></span>
+              </button>
+            </div>
+
+            <div class="volume-slider-group">
+              <label for="ambient-volume" class="volume-label">
+                <span>Ses Seviyesi</span>
+                <span id="volume-val-display">50%</span>
+              </label>
+              <input type="range" id="ambient-volume" min="0" max="100" value="50" class="volume-slider" aria-label="Sükunet sesi seviyesi">
+            </div>
+          </div>
+        </div>
+
         <a href="iletisim.html" class="nav-cta">
           <span>İlk Seans Randevusu</span>
           <span aria-hidden="true">→</span>
