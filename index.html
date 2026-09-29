@@ -165,6 +165,14 @@
 
           <!-- Sağ Kolon: Architectural Dossier Panel -->
           <aside class="hero-dossier" aria-label="Klinik çerçeve özeti">
+            <div class="portrait-editorial" style="margin-bottom: 1.5rem;">
+              <img src="assets/images/dr-elif-karasu.jpg" alt="Dr. Elif Karasu — Klinik Psikolog Portresi" width="480" height="580" loading="eager">
+              <div class="portrait-caption">
+                <span class="portrait-name">Dr. Elif Karasu</span>
+                <span class="portrait-role">Ph.D. · ISST Süpervizör</span>
+              </div>
+            </div>
+
             <div class="dossier-spec-list">
               <div class="dossier-spec-row">
                 <span class="dossier-spec-label">KLİNİSYEN</span>
@@ -260,6 +268,23 @@
             <div class="matrix-footnote">AŞAMA 03: SÜRDÜRÜLEBİLİR DÖNÜŞÜM</div>
           </article>
         </div>
+
+        <!-- KLİNİK ÇALIŞMA MEKANI: NİŞANTAŞI MUAYENEHANE -->
+        <div class="room-feature-banner">
+          <div class="room-feature-grid">
+            <img src="assets/images/nisantasi-klinik-oda.jpg" alt="Nişantaşı Klinik Terapi Odası — Huzurlu, Akustik İzolasyonlu Danışan Alanı" class="room-feature-img" loading="lazy" width="700" height="480">
+            <div class="room-feature-text">
+              <div class="section-tag" style="margin-bottom: 0.75rem;">FİZİKSEL VE ZİHNİSEL ÇERÇEVE</div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.75rem; margin-bottom: 1rem; color: var(--text-main); font-weight: 600;">Seans odası, zihnin savunmasız kalabildiği sığınaktır.</h3>
+              <p style="font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 1.25rem;">
+                Akustik izolasyonu sağlanmış, doğal gün ışığı alan ve dış dünyanın gürültüsünden arındırılmış Nişantaşı muayenehanemizde; yargılanma endişesi olmadan en derin duygusal yüklerinizi konuşabileceğiniz güvenli bir fiziksel alan sunuyoruz.
+              </p>
+              <div style="font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase;">
+                Valikonağı Cad. No:48 Nişantaşı, Şişli / İstanbul
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -337,7 +362,111 @@
       </div>
     </section>
 
-    <!-- 05. SECTION: PRIMARY CRO — SÜRTÜNMESİZ DOĞRUDAN BAŞVURU KARTI -->
+    <!-- 05. SECTION: KLİNİK DEĞERLENDİRME VE HAZIRLIK TESTİ (CRO) -->
+    <section class="assessment-section" id="klinik-test">
+      <div class="container">
+        <div class="assessment-container">
+          <div style="text-align: center; margin-bottom: 2.5rem;">
+            <span class="section-tag" style="display: inline-block; margin-bottom: 0.5rem;">İNTERAKTİF ÖN DEĞERLENDİRME</span>
+            <h2 class="section-title-serif" style="font-size: clamp(2rem, 3.5vw, 2.75rem);">Terapiye Başlamak İçin Doğru Zaman mı?</h2>
+            <p class="section-desc-lead" style="max-width: 640px; margin: 0 auto;">
+              3 kısa adımda şu anki zihinsel ve duygusal durumunuzu analiz edin; ihtiyacınıza en uygun terapi ekolü ve çalışma odağını keşfedin.
+            </p>
+          </div>
+
+          <div class="assessment-card" id="clinical-assessment">
+            <div class="assessment-progress-bar" aria-hidden="true">
+              <div class="progress-pill active"></div>
+              <div class="progress-pill"></div>
+              <div class="progress-pill"></div>
+            </div>
+
+            <!-- Adım 1 -->
+            <div class="assessment-step active" data-step-index="1">
+              <div class="assessment-question-kicker">ADIM 1 / 3 · MEVCUT BELİRTİ VE ZORLANMA</div>
+              <h3 class="assessment-question">Son dönemde zihninizi en çok hangi durum meşgul ediyor veya tüketiyor?</h3>
+              <div class="assessment-options-grid">
+                <button type="button" class="assessment-option-btn" data-step="1" data-value="kaygi" data-category="Kaygı & Panik Bozukluk">
+                  <span>Sürekli kötü bir şey olacak hissi, nefes darlığı, çarpıntı veya kontrolü kaybetme korkusu.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="1" data-value="depresyon" data-category="Depresyon & Tükenmişlik">
+                  <span>Sabahları uyanmakta zorlanma, hiçbir şeyden keyif alamama, derin anlamsızlık ve yorgunluk.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="1" data-value="iliski" data-category="İlişki & Bağlanma Sorunları">
+                  <span>İlişkilerde terk edilme kaygısı, sınır koyamama, aşırı fedakarlık ve hayır diyememe döngüsü.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="1" data-value="travma" data-category="Geçmiş Yaşantılar & Travma">
+                  <span>Geçmişte yaşanan kırıcı anıların, duygusal ihmalin veya beklenmedik kayıpların bugüne sızması.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Adım 2 -->
+            <div class="assessment-step" data-step-index="2">
+              <div class="assessment-question-kicker">ADIM 2 / 3 · GÜNLÜK İŞLEVSELLİK</div>
+              <h3 class="assessment-question">Bu durum iş, sosyal veya özel yaşamınızın akışını nasıl etkiliyor?</h3>
+              <div class="assessment-options-grid">
+                <button type="button" class="assessment-option-btn" data-step="2" data-value="yuksek">
+                  <span>İşlerimi aksatmaya başladım, sorumluluklarımı yerine getirmekte ciddi şekilde zorlanıyorum.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="2" data-value="orta">
+                  <span>Dışarıdan idare ediyor gibi görünsem de içeride çok büyük bir zihinsel efor ve tükenmişlik yaşıyorum.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="2" data-value="hafif">
+                  <span>Belirli kriz anlarında veya belirli insanlarla karşılaştığımda tetiklenip kontrolü kaybediyorum.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Adım 3 -->
+            <div class="assessment-step" data-step-index="3">
+              <div class="assessment-question-kicker">ADIM 3 / 3 · TERAPÖTİK BEKLENTİ</div>
+              <h3 class="assessment-question">Psikoterapi sürecinden birincil beklentiniz nedir?</h3>
+              <div class="assessment-options-grid">
+                <button type="button" class="assessment-option-btn" data-step="3" data-value="beceri">
+                  <span>Akut kriz anlarını yönetebileceğim bilimsel ve pratik regülasyon becerileri kazanmak.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="3" data-value="koken">
+                  <span>Bu kalıpların çocukluğumdaki ve erken dönemimdeki köklerini anlayıp içsel olarak onarmak.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="assessment-option-btn" data-step="3" data-value="karar">
+                  <span>Önemli bir yaşam eşiğinde (ayrılık, kariyer değişimi, kayıp) netlik kazanıp sağlıklı kararlar almak.</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sonuç Paneli -->
+            <div class="assessment-result">
+              <span class="result-badge">KİŞİYE ÖZEL FORMÜLASYON RAPORU</span>
+              <h4 class="result-heading">Klinik Öneri: Kaygı & Panik Bozukluk</h4>
+              <p class="result-text">
+                Deneyimlediğiniz belirtiler, zihnin felaket senaryoları ve bedensel alarm sisteminin aşırı uyarılmasıyla ilişkili görünüyor.
+              </p>
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="button" id="btn-prefill-booking" class="btn btn-primary">
+                  Bu Odakla Ön Görüşme Formunu Otomatik Doldur →
+                </button>
+                <a href="tel:+902122364185" class="btn btn-secondary">
+                  Doğrudan Asistanla Görüş
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06. SECTION: PRIMARY CRO — SÜRTÜNMESİZ DOĞRUDAN BAŞVURU KARTI -->
     <section class="booking-section" id="ilk-seans">
       <div class="container">
         <div class="booking-grid">
@@ -364,6 +493,11 @@
             <div class="booking-card-head">
               <span>ÖN GÖRÜŞME TALEBİ</span>
               <span>256-BIT SSL ENCRYPTED</span>
+            </div>
+
+            <div class="live-slot-badge">
+              <span class="status-dot"></span>
+              <span>Bu Hafta Açık Kontenjan: 3 Danışan Seansı</span>
             </div>
 
             <form id="hero-booking-form" action="#" method="POST" novalidate>
@@ -402,6 +536,25 @@
                   <option value="İlk Seansta Birlikte Belirleme">İlk Seansta Birlikte Belirleme</option>
                 </select>
                 <span class="field-error-msg">Lütfen bir başvuru konusu seçiniz.</span>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Görüşme Formatı Tercihiniz</label>
+                <div class="slot-chips-group" data-multi="false">
+                  <input type="hidden" name="format_preference" value="Yüz Yüze (Nişantaşı)">
+                  <div class="slot-chip selected" data-value="Yüz Yüze (Nişantaşı)">🏛️ Nişantaşı Muayenehane</div>
+                  <div class="slot-chip" data-value="Online (Şifreli Video)">💻 Şifreli Online Seans</div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Uygun Olduğunuz Zaman Dilimi</label>
+                <div class="slot-chips-group" data-multi="true">
+                  <input type="hidden" name="time_slots" value="Hafta İçi Akşam">
+                  <div class="slot-chip" data-value="Hafta İçi Gündüz (10:00 - 14:00)">Gündüz (10:00 - 14:00)</div>
+                  <div class="slot-chip selected" data-value="Hafta İçi Akşam (15:00 - 19:30)">Akşam (15:00 - 19:30)</div>
+                  <div class="slot-chip" data-value="Cumartesi">Cumartesi (10:00 - 16:30)</div>
+                </div>
               </div>
 
               <div class="field-checkbox-row">

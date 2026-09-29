@@ -17,6 +17,8 @@
     initFaqAccordion();
     initForms();
     initCookieNotice();
+    initAssessmentTool();
+    initSlotChips();
   }
 
   /* ----------------------------------------------------
@@ -382,5 +384,121 @@
       } catch (e) {}
       banner.classList.remove('visible');
     }
+  }
+
+  /* ----------------------------------------------------
+     7. INTERACTIVE CLINICAL ASSESSMENT TOOL (CRO TEST)
+     ---------------------------------------------------- */
+  function initAssessmentTool() {
+    var tool = document.getElementById('clinical-assessment');
+    if (!tool) return;
+
+    var currentStep = 1;
+    var userAnswers = {};
+
+    var steps = tool.querySelectorAll('.assessment-step');
+    var pills = tool.querySelectorAll('.progress-pill');
+    var resultCard = tool.querySelector('.assessment-result');
+    var resultTitle = tool.querySelector('.result-heading');
+    var resultText = tool.querySelector('.result-text');
+    var fillFormBtn = tool.querySelector('#btn-prefill-booking');
+
+    tool.querySelectorAll('.assessment-option-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var stepNum = parseInt(btn.dataset.step, 10);
+        var answerVal = btn.dataset.value;
+        var focusCategory = btn.dataset.category || 'Kaygı & Panik Bozukluk';
+
+        userAnswers[stepNum] = { val: answerVal, category: focusCategory };
+
+        if (stepNum < steps.length) {
+          goToStep(stepNum + 1);
+        } else {
+          showResult();
+        }
+      });
+    });
+
+    function goToStep(step) {
+      currentStep = step;
+      steps.forEach(function (s, idx) {
+        s.classList.toggle('active', idx + 1 === step);
+      });
+      pills.forEach(function (p, idx) {
+        p.classList.toggle('active', idx + 1 <= step);
+      });
+    }
+
+    function showResult() {
+      steps.forEach(function (s) { s.classList.remove('active'); });
+      pills.forEach(function (p) { p.classList.add('active'); });
+
+      var dominantCategory = (userAnswers[1] && userAnswers[1].category) || 'Kaygı & Panik Bozukluk';
+
+      var descMap = {
+        'Kaygı & Panik Bozukluk': 'Deneyimlediğiniz belirtiler, zihnin felaket senaryoları ve bedensel alarm sisteminin aşırı uyarılmasıyla ilişkili görünüyor. Bilişsel Davranışçı Terapi (BDT) protokolüyle kaygı döngülerini kırmak ve bedensel regülasyon becerisi kazanmak sizin için öncelikli klinik hedef olabilir.',
+        'Depresyon & Tükenmişlik': 'İçsel enerjinizin düşmesi ve keyif kaybı, bastırılmış duygusal ihtiyaçlara ve mesleki/kişisel tükenmişliğe işaret ediyor. Şema Terapi ve BDT kombinasyonuyla kendi kaynaklarınızı yeniden uyandırabileceğimiz bir çerçeve önerilmektedir.',
+        'İlişki & Bağlanma Sorunları': 'İlişkilerde tekrarlayan zorlanmalar ve terk edilme kaygıları, erken dönem bağlanma deneyimlerinin bugünkü yansımasıdır. Şema Terapi odaklı yaşantısal tekniklerle güvenli bağ kurma çalışması size kalıcı içsel dayanıklılık kazandırabilir.',
+        'Geçmiş Yaşantılar & Travma': 'Geçmişte yaşanan sarsıcı anıların bugüne taşınan yükleri, regülasyon ve travma odaklı duyarsızlaştırma ile hafifletilebilir. İlk değerlendirme seansında güvenli bir zemin kurarak adım adım ilerlemek esastır.'
+      };
+
+      if (resultTitle) resultTitle.textContent = 'Klinik Öneri: ' + dominantCategory;
+      if (resultText) resultText.textContent = descMap[dominantCategory] || descMap['Kaygı & Panik Bozukluk'];
+
+      if (resultCard) {
+        resultCard.style.display = 'block';
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      if (fillFormBtn) {
+        fillFormBtn.addEventListener('click', function () {
+          var targetForm = document.getElementById('hero-booking-form') || document.getElementById('contact-form');
+          if (targetForm) {
+            var selectField = targetForm.querySelector('[name="interest"]');
+            if (selectField) {
+              for (var i = 0; i < selectField.options.length; i++) {
+                if (selectField.options[i].value.indexOf(dominantCategory.split(' ')[0]) !== -1) {
+                  selectField.selectedIndex = i;
+                  break;
+                }
+              }
+            }
+            var targetAnchor = document.getElementById('ilk-seans') || targetForm;
+            targetAnchor.scrollIntoView({ behavior: 'smooth' });
+            var nameInput = targetForm.querySelector('[name="name"]');
+            if (nameInput) setTimeout(function () { nameInput.focus(); }, 600);
+          }
+        });
+      }
+    }
+  }
+
+  /* ----------------------------------------------------
+     8. INTERACTIVE SLOT & FORMAT CHIPS
+     ---------------------------------------------------- */
+  function initSlotChips() {
+    document.querySelectorAll('.slot-chips-group').forEach(function (group) {
+      var chips = group.querySelectorAll('.slot-chip');
+      var hiddenInput = group.querySelector('input[type="hidden"]');
+
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          var isMulti = group.dataset.multi === 'true';
+
+          if (!isMulti) {
+            chips.forEach(function (c) { c.classList.remove('selected'); });
+            chip.classList.add('selected');
+            if (hiddenInput) hiddenInput.value = chip.dataset.value;
+          } else {
+            chip.classList.toggle('selected');
+            var selectedVals = [];
+            group.querySelectorAll('.slot-chip.selected').forEach(function (sc) {
+              selectedVals.push(sc.dataset.value);
+            });
+            if (hiddenInput) hiddenInput.value = selectedVals.join(', ');
+          }
+        });
+      });
+    });
   }
 })();

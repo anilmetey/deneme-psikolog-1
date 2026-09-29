@@ -111,6 +111,11 @@
             <h2 class="heading-md" style="margin-bottom: var(--space-3);">Ön Bilgi ve İletişim Formu</h2>
             <p class="text-muted" style="margin-bottom: var(--space-4); font-size: 0.9375rem;">Danışan gizliliği esastır. Bu formda toplanan bilgiler yalnızca ön değerlendirme ve randevu planlaması amacıyla saklı tutulur.</p>
 
+            <div class="live-slot-badge" style="margin-bottom: 1.25rem;">
+              <span class="status-dot"></span>
+              <span>Bu Hafta Açık Kontenjan: 3 Danışan Seansı</span>
+            </div>
+
             <form id="contact-form" action="#" method="POST" novalidate>
               <div class="form-hp" aria-hidden="true">
                 <label for="website-field">Bu alanı boş bırakın</label>
@@ -148,6 +153,25 @@
                   <option value="Diğer / Emin Değilim">Diğer / İlk Seansta Birlikte Belirleme</option>
                 </select>
                 <span class="form-error">Lütfen bir başvuru konusu seçiniz.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Görüşme Formatı Tercihiniz</label>
+                <div class="slot-chips-group" data-multi="false">
+                  <input type="hidden" name="format_preference" value="Yüz Yüze (Nişantaşı)">
+                  <div class="slot-chip selected" data-value="Yüz Yüze (Nişantaşı)">🏛️ Nişantaşı Muayenehane</div>
+                  <div class="slot-chip" data-value="Online (Şifreli Video)">💻 Şifreli Online Seans</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Uygun Olduğunuz Zaman Dilimi</label>
+                <div class="slot-chips-group" data-multi="true">
+                  <input type="hidden" name="time_slots" value="Hafta İçi Akşam">
+                  <div class="slot-chip" data-value="Hafta İçi Gündüz (10:00 - 14:00)">Gündüz (10:00 - 14:00)</div>
+                  <div class="slot-chip selected" data-value="Hafta İçi Akşam (15:00 - 19:30)">Akşam (15:00 - 19:30)</div>
+                  <div class="slot-chip" data-value="Cumartesi">Cumartesi (10:00 - 16:30)</div>
+                </div>
               </div>
 
               <div class="form-group">
@@ -208,14 +232,67 @@
               </p>
             </div>
 
-            <div style="margin-top: var(--space-4); padding: var(--space-4); background-color: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius);">
-              <p class="label-sm" style="margin-bottom: 6px;">HARİTA & ULAŞIM</p>
-              <p style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: var(--space-3);">
-                Binamızda kapalı otopark bulunmamakta olup, cadde üzerinde İspark ve 100 metre mesafede City's otoparkı hizmet vermektedir.
-              </p>
-              <a href="https://maps.google.com/?q=Tesvikiye+Caddesi+Nisantasi+Istanbul" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width: 100%;">
-                Google Haritalar'da Görüntüle ↗
-              </a>
+            <!-- ARCHITECTURAL TRANSIT VECTOR MAP -->
+            <div class="transit-vector-card" style="border: var(--glass-border); background-color: var(--glass-bg); backdrop-filter: var(--glass-blur); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <span style="font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase;">ULAŞIM VE LOKASYON ŞEMASI</span>
+                <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: #2E7D32; background: rgba(46,125,50,0.1); padding: 2px 8px; border-radius: 2px;">● METROYA 7 DK</span>
+              </div>
+              
+              <svg viewBox="0 0 460 220" width="100%" height="auto" style="border-radius: var(--radius); background: #FAF9F6; border: 1px solid rgba(20,29,28,0.08);" role="img" aria-label="Nişantaşı Muayenehane Ulaşım Krokisi">
+                <defs>
+                  <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(20,29,28,0.04)" stroke-width="1"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+                
+                <!-- Halaskargazi / Metro hattı -->
+                <line x1="60" y1="20" x2="60" y2="200" stroke="#DDD8CE" stroke-width="8" stroke-linecap="round" />
+                <text x="50" y="115" font-family="'JetBrains Mono', monospace" font-size="9" fill="#757570" transform="rotate(-90 50,115)" letter-spacing="1">HALASKARGAZİ CAD.</text>
+
+                <!-- Rumeli Caddesi -->
+                <line x1="60" y1="80" x2="240" y2="80" stroke="#BC6C4D" stroke-width="5" stroke-dasharray="3,3" opacity="0.6" />
+                <text x="95" y="72" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#BC6C4D">RUMELİ CAD. (Yürüme: 7 Dk)</text>
+
+                <!-- Valikonağı Caddesi -->
+                <line x1="60" y1="150" x2="380" y2="150" stroke="#DDD8CE" stroke-width="6" stroke-linecap="round" />
+                <text x="120" y="166" font-family="'JetBrains Mono', monospace" font-size="9" fill="#757570">VALİKONAĞI CADDESİ</text>
+
+                <!-- Teşvikiye Caddesi -->
+                <line x1="240" y1="50" x2="380" y2="190" stroke="#141D1C" stroke-width="7" stroke-linecap="round" />
+                <text x="325" y="105" font-family="'JetBrains Mono', monospace" font-size="9" fill="#141D1C" transform="rotate(45 325,105)">TEŞVİKİYE CAD.</text>
+
+                <!-- Osmanbey Metro İstasyonu -->
+                <circle cx="60" cy="80" r="8" fill="#1565C0" />
+                <circle cx="60" cy="80" r="4" fill="#FFFFFF" />
+                <text x="12" y="70" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" fill="#1565C0">M2 OSMANBEY</text>
+                <text x="22" y="98" font-family="'JetBrains Mono', monospace" font-size="8" fill="#757570">Rumeli Çıkışı</text>
+
+                <!-- City's Nişantaşı -->
+                <rect x="270" y="105" width="46" height="24" rx="2" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1" />
+                <text x="274" y="120" font-family="'Inter', sans-serif" font-size="8" fill="#37474F">City's AVM</text>
+
+                <!-- Muayenehane Noktası (PIN) -->
+                <circle cx="340" cy="150" r="14" fill="rgba(188, 108, 77, 0.2)" />
+                <circle cx="340" cy="150" r="7" fill="#BC6C4D" />
+                <circle cx="340" cy="150" r="3" fill="#FFFFFF" />
+                
+                <g transform="translate(315, 172)">
+                  <rect width="130" height="34" rx="2" fill="#141D1C" />
+                  <text x="10" y="14" font-family="'Inter', sans-serif" font-size="8.5" font-weight="bold" fill="#F7F5F0">DR. ELİF KARASU</text>
+                  <text x="10" y="26" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#DDD8CE">Belkıs Apt. No: 28/4</text>
+                </g>
+              </svg>
+
+              <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                <a href="https://maps.google.com/?q=Tesvikiye+Caddesi+Nisantasi+Istanbul" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="flex: 1; text-align: center; font-size: 0.8125rem; padding: 0.625rem;">
+                  Google Haritalar'da Aç ↗
+                </a>
+                <a href="https://yandex.com.tr/harita/?text=Tesvikiye+Caddesi+Nisantasi" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex: 1; text-align: center; font-size: 0.8125rem; padding: 0.625rem;">
+                  Yandex Navigasyon ↗
+                </a>
+              </div>
             </div>
           </div>
         </div>
